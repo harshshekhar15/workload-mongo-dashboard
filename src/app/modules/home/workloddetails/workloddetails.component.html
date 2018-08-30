@@ -13,6 +13,15 @@
   </div>
 </div>
 
+<div class="container">
+  <div class="alert alert-primary alert-dismissible text-center" role="alert" *ngIf="isAlert">
+    {{ alertMessage }}
+    <!-- <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button> -->
+  </div>
+</div>
+
 <div class="container-fluid">
   <div class="row">
     <div class="col-md-6">
@@ -107,13 +116,13 @@
                   <div>
                     <select class="custom-select" id="induceChaos" (change)="onChaosSelect($event.target.value)" style="width:180px;">
                       <option selected value="">Select Chaos..</option>
-                      <option *ngFor="let chaosTest of chaosTests;" value="{{chaosTest}} "> {{chaosTest}}
+                      <option *ngFor="let chaosTest of chaosTests;" value="{{chaosTest}}"> {{chaosTest}}
                       </option>
                     </select>
                   </div>
                   <div style="padding-left: 20px; ">
                     <button class="btn btn-pill btn-secondary action-button btn-sm" [disabled]="selectedChaos == '' || selectedApplication == ''"
-                      (click)="runChaosTest(selectedChaos, selectedApplication) ">
+                      (click)="runChaosTest(selectedChaos, selectedApplication)">
                       Go </button>
                   </div>
                 </div>
@@ -123,9 +132,9 @@
               <td></td>
               <td style="padding-left: 40px;">
                 <div>
-                  <select class="custom-select hide-custom" id="application" (change)="onAppSelect($event.target.value)" style="width:180px;">
+                  <select class="custom-select" id="application" (change)="onAppSelect($event.target.value)" style="width:180px;">
                     <option selected value="">Select Application..</option>
-                    <option *ngFor="let statefulset of statefullApplications" value="{{statefulset.name}} "> {{statefulset.name}}
+                    <option *ngFor="let statefulset of statefullApplications" value="{{statefulset.name}}"> {{statefulset.name}}
                     </option>
                   </select>
                 </div>
@@ -189,7 +198,7 @@
         <div claas="row">
           <div class="col-md-12 ">
             <div class="d-flex justify-content-between">
-              <div class = "query">Query command mayactl volumes list -n {{namespace}}</div> <button style="height:40px;" class="btn btn-secondary"
+              <div class="query">Query command mayactl volumes list -n {{namespace}}</div> <button style="height:40px;" class="btn btn-secondary"
                 (click)="listVolume() ">Execute <img src="assets/images/down-left.png " alt=" " height="20px "></button>
             </div>
           </div>

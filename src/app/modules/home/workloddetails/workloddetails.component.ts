@@ -88,6 +88,8 @@ export class WorkloddetailsComponent implements OnInit {
   public getmessage;
   public poststatus;
   public postmessage;
+  public isAlert: boolean;
+  public alertMessage = "";
   constructor(private personService: PersonService) {
     this.windowWidth = window.innerWidth;
   }
@@ -119,7 +121,7 @@ export class WorkloddetailsComponent implements OnInit {
     }
 
     if (this.selectedChaos == "") {
-      $(".hide-custom").hide();
+      $("#application").hide();
     }
 
     timer(0, 3000).subscribe(x => {
@@ -249,9 +251,12 @@ export class WorkloddetailsComponent implements OnInit {
   public onChaosSelect(chaosValue) {
     this.selectedChaos = chaosValue;
     if (this.selectedChaos != "") {
-      $(".hide-custom").show();
+      $("#application").show();
     } else {
-      $(".hide-custom").hide();
+      $("#application").hide();
+      $("#application")
+        .val("")
+        .change();
       this.selectedApplication = "";
     }
   }
@@ -262,6 +267,7 @@ export class WorkloddetailsComponent implements OnInit {
 
   public runChaosTest(chaos: string, app: string) {
     if (chaos != "" && app != "") {
+      this.alertMessage = chaos + " Chaos on " + app + " started";
       for (let i = 0; i < this.chaosTests.length; i++) {
         if (chaos.trim() == this.chaosTests[i]) {
           chaos = i.toString();
@@ -269,6 +275,38 @@ export class WorkloddetailsComponent implements OnInit {
         }
       }
       this.personService.runChaosTestService(chaos, app.trim());
+      this.runAlert();
+      this.setSelectToDefault();
     }
+  }
+
+  public runAlert() {
+    this.isAlert = true;
+    setTimeout(
+      function() {
+        $(".alert")
+          .animate({ opacity: 0, bottom: "40px" }, 500)
+          .hide("slow");
+        setTimeout(
+          function() {
+            this.isAlert = false;
+          }.bind(this),
+          600
+        );
+      }.bind(this),
+      4000
+    );
+  }
+
+  public setSelectToDefault() {
+    this.selectedChaos = "";
+    this.selectedApplication = "";
+    $("#application").hide();
+    $("#application")
+      .val("")
+      .change();
+    $("#induceChaos")
+      .val("")
+      .change();
   }
 }
